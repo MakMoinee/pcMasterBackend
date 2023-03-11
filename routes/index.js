@@ -5,7 +5,7 @@ const lMysql = new LocalMysql();
 const errorObject = require("../src/models/errorResponse");
 const config = require("../config.json");
 
-router.get("/", function (req, res, next) {
+router.post("/", function (req, res, next) {
   if (req.headers.apikey === undefined) {
     errorObject.errorMessage = "Unauthorized access, Please provide apiKey";
     return res.status(401).send(errorObject);
@@ -27,7 +27,13 @@ router.get("/", function (req, res, next) {
     return res.status(400).send(errorObject);
   }
 
-  lMysql.getMethod(req.body.query, res, req.body.fields);
+  lMysql.postMethod(req.body.query, res, req.body.fields);
+});
+
+router.get("/", function (req, res, next) {
+  errorObject.errorMessage =
+      "default no page";
+  return res.status(500).send(errorObject);
 });
 
 module.exports = router;

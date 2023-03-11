@@ -20,7 +20,7 @@ class LocalMySQL {
     });
   }
 
-  getMethod(query, res, ...fields) {
+  postMethod(query, res, ...fields) {
     let finalQuery = fields == "none" ? query : util.format(query, fields.join(","));
     pool.query(finalQuery, (error, results, fields) => {
       if (error) {
