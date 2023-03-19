@@ -1,5 +1,6 @@
 const mysql = require("mysql");
 const config = require("../../config.json");
+const sqlstring = require("sqlstring");
 const util = require("util");
 let errorObject = require("../models/errorResponse.js");
 const pool = new mysql.createConnection({
@@ -20,8 +21,8 @@ class LocalMySQL {
     });
   }
 
-  postMethod(query, res, ...fields) {
-    let finalQuery = fields == "none" ? query : util.format(query, fields.join(","));
+  postMethod(query, res, fields) {
+    let finalQuery = fields == "none" ? query : sqlstring.format(query, fields.split(','));
     pool.query(finalQuery, (error, results, fields) => {
       if (error) {
         console.log(error);
